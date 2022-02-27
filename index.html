@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <style>
+        #app li>span.done {
+            text-decoration: line-through;
+        }
+        ul{
+            padding: 0;
+        }
+        li{
+            padding: 10px;
+        }
+    </style>
+
+    <title>TODOアプリ</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>TODOアプリ</h1>
+        <input type="text" v-model="new_todo">
+        <button v-on:click="AddTodo">追加</button>
+        <ul>
+            <li v-for="(todo,index) in todo_list" style="list-style:none;">
+                <input type="checkbox" v-model="todo.isDone">
+                <span v-bind:class="{done: todo.isDone}">{{todo.name}}</span>
+                <button v-on:click="DeleteTodo(index)">削除</button>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                new_todo: "",
+                todo_list: []
+            },
+            methods: {
+                AddTodo: function () {
+                    if (this.new_todo == "") return;
+                    const todo_item = {
+                        name: this.new_todo,
+                        isDone: false,
+                    }
+                    this.todo_list.push(todo_item);
+                    this.new_todo = ""
+                },
+                DeleteTodo: function (index) {
+                    this.todo_list.splice(index, 1)
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
